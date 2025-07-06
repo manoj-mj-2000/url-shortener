@@ -1,0 +1,102 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Shortener</title>
+</head>
+<style>
+body{
+	justify-content: center;
+    align-items: center;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    background: saddlebrown;
+}
+table{
+    background-color: darkcyan;
+    padding: 25px;
+    border-radius: 30px;
+    align-items: center;
+    align-self: center;
+    width: 50%;
+}
+tr{
+	text-align: center;
+}
+input[type=text]{
+	text-align: center;
+    font-size: xx-large;
+    border-radius: 10px;
+    margin: 10% 0;
+    font-family: monospace;
+    width: 100%;
+    height: 40px;
+}
+input[type=button]{
+	padding: 5%;
+    font-size: x-large;
+    font-weight: bold;
+    border-radius: 10px;
+    background: #8b0046;
+    color: floralwhite;
+}
+a{
+	color: ghostwhite;
+}
+</style>
+<body>
+  <h1 style="color: floralwhite;margin-top:0%">Shorten Your URL</h1>
+  
+  <table>
+  	<tr>
+  		<td><input type="text" id="originalUrl" placeholder="Enter URL" /></td>
+  	</tr>  
+  	<tr>
+  		<td><input type="button" onClick="submit()" value="Shorten"/></td>
+  	</tr>
+  	<tr></tr>
+  	<tr>
+  		<td style="padding: 8%;font-size: x-large;border: 2px;">
+  			<a id="shortUrl" target="_blank"></a>
+  		</td>
+  	</tr>
+  </table>
+  
+  <!-- <form th:action="@{/shorten}" method="post">
+    <input type="text" name="originalUrl" placeholder="Enter URL" />
+    <input type="button" onClick="submit">Shorten</button>
+  </form> -->
+
+  <!-- <p th:if="${shortUrl}" th:text="'Short URL: ' + ${shortUrl}"></p> -->
+  
+  <script type="text/javascript">
+  	function submit(){
+  		var url = document.getElementById("originalUrl").value;
+  		if(originalUrl == null && originalUrl == ""){
+  			alert("Invalid Url");
+  		}
+  		else{
+  			var data = {
+  					"originalUrl":url
+  			}
+  			var xhr = new XMLHttpRequest();
+  			xhr.timeout = 2000;
+			xhr.onreadystatechange = function() {
+				if (this.readyState == 4 && this.status == 200) {
+					//need to handle here
+					let shortCode = this.responseText;
+					let aTag = document.getElementById("shortUrl");
+					aTag.innerText = window.location.hostname+"/"+shortCode;
+					aTag.setAttribute('href', "/"+shortCode);
+				}
+			};
+
+			xhr.open("POST", "/api/shorten", true);
+			xhr.setRequestHeader("Content-Type", "application/json");
+			xhr.send(JSON.stringify(data));
+  			
+  		}
+  	}
+  </script>
+</body>
+</html>
