@@ -19,3 +19,10 @@ A simple URL shortener web application built using **Java Spring Boot**, **MySQL
 - Maven
 - AWS Elastic Beanstalk (EC2, RDS)
 - Eclipse (IDE)
+
+## API Endpoints
+
+| Method | Endpoint       | Description              |
+|--------|----------------|--------------------------|
+| POST   | `/shorten`     | Shortens a given long URL |
+| GET    | `/{shortCode}` | Redirects to original URL |
